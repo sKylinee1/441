@@ -94,8 +94,9 @@ function handleLoginSubmit(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // 检查输入的账号密码是否正确
+    // 检查输入的账号是否存在
     if (registeredUsers.hasOwnProperty(username)) {
+        // 账号存在时，检查密码是否正确
         if (registeredUsers[username] === password) {
             // 如果账号密码正确，设置cookie并跳转到courseware.html
             setCookie('isLoggedIn', 'true', 7);
