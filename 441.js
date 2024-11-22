@@ -94,6 +94,7 @@ function checkLoginAndRedirect() {
     if (!isLoggedIn) {
         window.location.href = 'login.html';
     } else {
+        alert('登录成功');
         window.location.href = 'courseware.html'; // 如果已登录，跳转到课程页面
     }
 }
@@ -103,20 +104,19 @@ function handleLoginSubmit(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const usernameCookie = getCookie('username');
 
-    // 检查输入的账号密码是否与cookie中的一致
-    if (username === usernameCookie && registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
-        console.log("Login successful, redirecting to courseware.html...");
+    if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
+        setCookie('isLoggedIn', 'true', 7);
+        setCookie('username', username, 7);
+        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
+        alert('登录成功');
         window.location.href = 'courseware.html';
     } else if (!registeredUsers.hasOwnProperty(username)) {
-        // 如果账号未注册，提示并提供注册选项
         const result = confirm('当前账号未注册。点击“确定”去注册。');
         if (result) {
             window.location.href = 'register.html';
         }
     } else {
-        // 如果账号已注册但密码错误，提示错误
         alert('密码错误');
     }
 }
@@ -127,14 +127,14 @@ function handleRegisterSubmit(event) {
     const username = document.getElementById('registerUsername').value;
     const password = document.getElementById('registerPassword').value;
 
-    // 检查账号是否已经注册
     if (registeredUsers.hasOwnProperty(username)) {
         alert('您已经注册过该账号。');
     } else {
-        registeredUsers[username] = password; // 模拟将新用户名和密码添加到已注册列表
-        setCookie('username', username, 7); // 设置cookie以记住用户名
+        registeredUsers[username] = password;
+        setCookie('username', username, 7);
+        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
         alert('注册成功，请登录。');
-        window.location.href = 'login.html'; // 注册成功后跳转到登录界面
+        window.location.href = 'login.html';
     }
 }
 
