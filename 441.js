@@ -101,6 +101,7 @@ function handleLoginSubmit(event) {
             // 如果账号密码正确，设置cookie并跳转到courseware.html
             setCookie('isLoggedIn', 'true', 7);
             setCookie('username', username, 7);
+            setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
             alert('登录成功');
             window.location.href = 'courseware.html';
         } else {
