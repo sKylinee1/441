@@ -50,11 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-
-
-
-
     
     // 用户登录和注册的处理逻辑
     const registeredUsers = {
