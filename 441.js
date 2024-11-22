@@ -104,19 +104,19 @@ function handleLoginSubmit(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // 检查账号是否注册过以及密码是否匹配
     if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
-        setCookie('isLoggedIn', 'true', 7); // 设置登录状态的cookie
-        setCookie('username', username, 7); // 设置账号cookie
-        window.location.href = 'courseware.html'; // 跳转到课程页面
+        console.log("Login successful, setting cookies...");
+        setCookie('isLoggedIn', 'true', 7);
+        setCookie('username', username, 7);
+        console.log("Cookies set, redirecting to courseware.html...");
+        window.location.href = 'courseware.html'; // 确保路径正确
     } else if (!registeredUsers.hasOwnProperty(username)) {
-        // 如果账号未注册，显示提示，并提供“去注册”选项
         const result = confirm('当前账号未注册。点击“确定”去注册。');
         if (result) {
-            window.location.href = 'register.html'; // 点击“确定”后，跳转到注册界面
+            window.location.href = 'register.html';
         }
     } else {
-        alert('密码错误'); // 显示密码错误的提示
+        alert('密码错误');
     }
 }
 
