@@ -94,16 +94,11 @@ function handleLoginSubmit(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // 检查输入的账号密码是否与cookie中的一致
-    const passwordCookie = getCookie('password');
-    if (getCookie('isLoggedIn') === 'true' && getCookie('username') === username && passwordCookie === password) {
-        alert('登录成功');
-        window.location.href = 'courseware.html';
-    } else if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
+    // 检查输入的账号密码是否正确
+    if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
         // 如果账号密码正确，设置cookie并跳转到courseware.html
         setCookie('isLoggedIn', 'true', 7);
         setCookie('username', username, 7);
-        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
         alert('登录成功');
         window.location.href = 'courseware.html';
     } else if (!registeredUsers.hasOwnProperty(username)) {
