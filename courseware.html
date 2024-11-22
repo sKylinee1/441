@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTO IT School</title>
+    <link rel="stylesheet" href="441.css">
+    <script src="441.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <div class="logo">
+                <img src="logo.png" alt="RTO IT School Logo">
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="courseware.html" class="nav-link">Courseware</a>
+                <a href="enquiry.html" class="nav-link">Enquiry</a>
+                <a href="showcase.html" class="nav-link">Showcase</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Course selection -->
+        <section class="course-selection">
+        <!-- Example of a course item -->
+           <div class="course-item" id="course1">
+                <h3>Course 1</h3>
+                <div class="course-quantity">
+                      <button class="quantity-button" data-action="decrease" data-course="course1">-</button>
+                      <span class="quantity" data-course="course1">0</span>
+                      <button class="quantity-button" data-action="increase" data-course="course1">+</button>
+                </div>
+                <span class="course-price" data-course="course1">$100</span> <!-- Price display -->
+           </div>
+        <!-- Repeat for other courses -->
+        <!-- ... -->
+        </section>
+
+<!-- Buttons for calculating total and clearing selection -->
+<div class="buttons">
+    <button class="button" id="calculateTotal">Calculate Total</button>
+    <span class="total-price" id="totalPrice">$0.00</span> <!-- Total price display -->
+    <button class="button clear-button" id="clearSelection">Clear Selection</button>
+</div>
+    </main>
+    <footer>
+        <p>&copy; 2024 RTO IT School. All rights reserved.</p>
+    </footer>
+</body>
+</html>
