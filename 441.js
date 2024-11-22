@@ -85,7 +85,7 @@ function setCookie(name, value, days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
 }
 
 // 检查用户是否已经登录的函数，并在未登录时跳转到登录界面
@@ -129,7 +129,6 @@ function handleRegisterSubmit(event) {
     // 检查账号是否已经注册
     if (registeredUsers.hasOwnProperty(username)) {
         alert('您已经注册过该账号。');
-        window.location.href = 'login.html'; // 如果已注册，跳转到登录界面
     } else {
         registeredUsers[username] = password; // 模拟将新用户名和密码添加到已注册列表
         alert('注册成功，请登录。');
