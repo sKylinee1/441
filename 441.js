@@ -97,12 +97,7 @@ function handleLoginSubmit(event) {
         window.location.href = 'courseware.html';
     } else if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
         // 如果账号密码正确，设置cookie并跳转到courseware.html
-        setCookie('isLoggedIn', 'true', 7);
-        setCookie('username', username, 7);
-        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
-        alert('登录成功');
-        window.location.href = 'courseware.html';
-    } else if (!registeredUsers.hasOwnProperty(username)) {
+
         // 如果账号未注册，提示并提供注册选项
         const result = confirm('当前账号未注册。点击“确定”去注册。');
         if (result) {
