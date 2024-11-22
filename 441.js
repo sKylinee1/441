@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
 // 模拟的已注册用户名和密码存储
 const registeredUsers = {
     'user1': 'password1',
@@ -90,22 +94,27 @@ function handleLoginSubmit(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // 检查输入的账号密码是否与cookie中的一致
-    const passwordCookie = getCookie('password');
-    if (getCookie('isLoggedIn') === 'true' && getCookie('username') === username && passwordCookie === password) {
-        alert('登录成功');
-        window.location.href = 'courseware.html';
-    } else if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
-        // 如果账号密码正确，设置cookie并跳转到courseware.html
-
+    // 检查输入的账号是否存在
+    if (registeredUsers.hasOwnProperty(username)) {
+        // 账号存在时，检查密码是否正确
+        if (registeredUsers[username] === password) {
+            // 如果账号密码正确，设置cookie并跳转到courseware.html
+            setCookie('isLoggedIn', 'true', 7);
+            setCookie('username', username, 7);
+            alert('登录成功');
+            window.location.href = 'courseware.html';
+        } else {
+            // 如果账号已注册但密码错误，提示错误
+            alert('密码错误');
+        }
+    } else {
         // 如果账号未注册，提示并提供注册选项
         const result = confirm('当前账号未注册。点击“确定”去注册。');
         if (result) {
             window.location.href = 'register.html';
+        } else {
+            // 如果用户取消，不进行任何操作
         }
-    } else {
-        // 如果账号已注册但密码错误，提示错误
-        alert('密码错误');
     }
 }
 
