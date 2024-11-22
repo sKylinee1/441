@@ -91,6 +91,7 @@ function handleLoginSubmit(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const passwordCookie = getCookie('password'); // 获取cookie中的密码
 
     // 检查输入的账号是否存在
     if (registeredUsers.hasOwnProperty(username)) {
@@ -99,7 +100,9 @@ function handleLoginSubmit(event) {
             // 如果账号密码正确，设置cookie并跳转到courseware.html
             setCookie('isLoggedIn', 'true', 7);
             setCookie('username', username, 7);
-            setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
+            if (password !== passwordCookie) {
+                setCookie('password', password, 7); // 更新cookie中的密码
+            }
             alert('登录成功');
             window.location.href = 'courseware.html';
         } else {
