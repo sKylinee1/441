@@ -123,8 +123,8 @@ function handleLoginSubmit(event) {
 // 注册表单提交处理
 function handleRegisterSubmit(event) {
     event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
 
     // 检查账号是否已经注册
     if (registeredUsers.hasOwnProperty(username)) {
