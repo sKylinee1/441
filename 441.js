@@ -103,19 +103,20 @@ function handleLoginSubmit(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const usernameCookie = getCookie('username');
 
-    if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
-        console.log("Login successful, setting cookies...");
-        setCookie('isLoggedIn', 'true', 7);
-        setCookie('username', username, 7);
-        console.log("Cookies set, redirecting to courseware.html...");
-        window.location.href = 'courseware.html'; // 确保路径正确
+    // 检查输入的账号密码是否与cookie中的一致
+    if (username === usernameCookie && registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
+        console.log("Login successful, redirecting to courseware.html...");
+        window.location.href = 'courseware.html';
     } else if (!registeredUsers.hasOwnProperty(username)) {
+        // 如果账号未注册，提示并提供注册选项
         const result = confirm('当前账号未注册。点击“确定”去注册。');
         if (result) {
             window.location.href = 'register.html';
         }
     } else {
+        // 如果账号已注册但密码错误，提示错误
         alert('密码错误');
     }
 }
@@ -131,6 +132,7 @@ function handleRegisterSubmit(event) {
         alert('您已经注册过该账号。');
     } else {
         registeredUsers[username] = password; // 模拟将新用户名和密码添加到已注册列表
+        setCookie('username', username, 7); // 设置cookie以记住用户名
         alert('注册成功，请登录。');
         window.location.href = 'login.html'; // 注册成功后跳转到登录界面
     }
@@ -138,7 +140,7 @@ function handleRegisterSubmit(event) {
 
 // 绑定点击事件到“Courseware”链接
 document.addEventListener('DOMContentLoaded', function() {
-    const coursewareLink = document.querySelector('.nav-link[href="javascript:void(0)"]');
+    const coursewareLink = document.querySelector('.nav-link[href="javascript:void(0)"]'); // 确保选择器与实际HTML匹配
     if (coursewareLink) {
         coursewareLink.addEventListener('click', function(event) {
             event.preventDefault();
