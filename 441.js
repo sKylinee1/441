@@ -86,38 +86,45 @@ function deleteCookie(name) {
     document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+// 检查登录状态并执行相应操作的函数
+function checkLogin(username, password) {
+    var storedUsername = getCookie('username');
+    var storedPassword = getCookie('password'); // 假设密码也存储在cookie中，实际应用中不推荐这样做
+
+    if (storedUsername && storedPassword) {
+        if (username === storedUsername && password === storedPassword) {
+            alert('Login successful. Redirecting to Courseware...');
+            window.location.href = 'courseware.html';
+        } else {
+            alert('Password incorrect. Please try again.');
+        }
+    } else {
+        alert('Account not registered. Click "Register" to sign up.');
+    }
+}
+
+// 注册按钮点击事件
+function registerUser() {
+    window.location.href = 'register.html';
+}
+
+// 页面加载完成后添加事件监听器
 document.addEventListener('DOMContentLoaded', function() {
     var loginForm = document.getElementById('loginForm');
     var unregisteredMessage = document.getElementById('unregisteredMessage');
     var registerButton = document.getElementById('registerButton');
 
-    loginForm.addEventListener('submit', function(event) {
+    // 登录表单提交事件
+    loginForm.onsubmit = function(event) {
         event.preventDefault(); // 阻止表单默认提交行为
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
+        checkLogin(username, password);
+    };
 
-        // 检查cookie中是否有账号记录
-        var storedUsername = getCookie('username');
-        var storedPassword = getCookie('password'); // 假设密码也存储在cookie中，实际应用中不推荐这样做
-
-        if (storedUsername && storedPassword) {
-            // 如果账号和密码与cookie中的记录一致
-            if (username === storedUsername && password === storedPassword) {
-                alert('Login successful. Redirecting to Courseware...');
-                window.location.href = 'courseware.html';
-            } else {
-                // 如果账号存在但密码不一致
-                alert('Password incorrect. Please try again.');
-            }
-        } else {
-            // 如果账号在cookie里没有记录
-            unregisteredMessage.style.display = 'block';
-            alert('Account not registered. Click "Register" to sign up.');
-        }
-    });
-
-    registerButton.addEventListener('click', function(event) {
+    // 注册按钮点击事件
+    registerButton.onclick = function(event) {
         event.preventDefault(); // 阻止链接默认行为
-        window.location.href = 'register.html';
-    });
+        registerUser();
+    };
 });
