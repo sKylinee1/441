@@ -101,19 +101,18 @@ function handleLoginSubmit(event) {
             // 如果账号密码正确，设置cookie并跳转到courseware.html
             setCookie('isLoggedIn', 'true', 7);
             setCookie('username', username, 7);
-            alert('登录成功');
+            setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
+            alert('Login successful');
             window.location.href = 'courseware.html';
         } else {
             // 如果账号已注册但密码错误，提示错误
-            alert('密码错误');
+            alert('Password is incorrect');
         }
     } else {
         // 如果账号未注册，提示并提供注册选项
-        const result = confirm('当前账号未注册。点击“确定”去注册。');
+        const result = confirm('The account is not registered. Click "OK" to register.');
         if (result) {
             window.location.href = 'register.html';
-        } else {
-            // 如果用户取消，不进行任何操作
         }
     }
 }
@@ -126,13 +125,13 @@ function handleRegisterSubmit(event) {
 
     // 检查账号是否已经注册
     if (registeredUsers.hasOwnProperty(username)) {
-        alert('您已经注册过该账号。');
+        alert('You have already registered this account.');
     } else {
         registeredUsers[username] = password; // 模拟将新用户名和密码添加到已注册列表
         setCookie('isLoggedIn', 'true', 7);
         setCookie('username', username, 7);
         setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
-        alert('注册成功，请登录。');
+        alert('Registration successful, please log in.');
         window.location.href = 'login.html'; // 注册成功后跳转到登录界面
     }
 }
