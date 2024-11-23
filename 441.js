@@ -58,28 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// 假设cookie中的登录状态键名为'isLoggedIn'
-function checkLoginAndRedirect() {
-    // 检查cookie中是否有'isLoggedIn'键
-    var isLoggedIn = getCookie('isLoggedIn');
-    
-    if (isLoggedIn && isLoggedIn === 'true') {
-        // 如果用户已登录，重定向到courseware.html
-        window.location.href = 'courseware.html';
-    } else {
-        // 如果用户未登录，重定向到登录页面
-        window.location.href = 'login.html';
-    }
-}
-
-// 获取cookie的函数
-function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
-}
-
-// 设置cookie的函数，可以存储多条信息
+// 假设我们有一个函数来设置cookie
 function setCookie(name, value, days) {
     var expires = "";
     if (days) {
@@ -90,22 +69,55 @@ function setCookie(name, value, days) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-// 假设有一个函数用于处理用户登录，设置登录状态到cookie
-function userLogin(username, password) {
-    // 这里应该是登录逻辑，如果登录成功：
-    setCookie('isLoggedIn', 'true', 7); // 假设登录状态有效期为7天
-    // 可以设置更多的用户信息到cookie
-    setCookie('username', username, 7);
-    // 重定向到courseware页面
-    window.location.href = 'courseware.html';
+// 假设我们有一个函数来获取cookie
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }
 
-// 假设有一个函数用于处理用户登出，清除登录状态
-function userLogout() {
-    // 清除cookie中的登录状态
-    setCookie('isLoggedIn', 'false', -1); // 设置过期时间为过去的时间，即删除cookie
-    // 可以清除更多的用户信息
-    setCookie('username', '', -1);
-    // 重定向到登录页面或其他页面
-    window.location.href = 'login.html';
+// 假设我们有一个函数来删除cookie
+function deleteCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var loginForm = document.getElementById('loginForm');
+    var unregisteredMessage = document.getElementById('unregisteredMessage');
+    var registerButton = document.getElementById('registerButton');
+
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // 阻止表单默认提交行为
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // 检查cookie中是否有账号记录
+        var storedUsername = getCookie('username');
+        var storedPassword = getCookie('password'); // 假设密码也存储在cookie中，实际应用中不推荐这样做
+
+        if (storedUsername && storedPassword) {
+            // 如果账号和密码与cookie中的记录一致
+            if (username === storedUsername && password === storedPassword) {
+                alert('Login successful. Redirecting to Courseware...');
+                window.location.href = 'courseware.html';
+            } else {
+                // 如果账号存在但密码不一致
+                alert('Password incorrect. Please try again.');
+            }
+        } else {
+            // 如果账号在cookie里没有记录
+            unregisteredMessage.style.display = 'block';
+            alert('Account not registered. Click "Register" to sign up.');
+        }
+    });
+
+    registerButton.addEventListener('click', function(event) {
+        event.preventDefault(); // 阻止链接默认行为
+        window.location.href = 'register.html';
+    });
+});
