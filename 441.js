@@ -58,73 +58,110 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// 假设我们有一个函数来设置cookie
+// 模拟的已注册用户名和密码存储
+const registeredUsers = {
+    'user1': 'password1',
+    'user2': 'password2',
+    'user3': 'password3'
+};
+
+// 获取cookie的函数
+function getCookie(name) {
+    let cookieArray = document.cookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return '';
+}
+
+// 设置cookie的函数
 function setCookie(name, value, days) {
-    var expires = "";
+    let expires = "";
     if (days) {
-        var date = new Date();
+        let date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
 }
 
-// 假设我们有一个函数来获取cookie
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
+// 登录表单提交处理
+function handleLoginSubmit(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-// 假设我们有一个函数来删除cookie
-function deleteCookie(name) {
-    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-// 检查登录状态并执行相应操作的函数
-function checkLogin(username, password) {
-    var storedUsername = getCookie('username');
-    var storedPassword = getCookie('password'); // 假设密码也存储在cookie中，实际应用中不推荐这样做
-
-    if (storedUsername && storedPassword) {
-        if (username === storedUsername && password === storedPassword) {
-            alert('Login successful. Redirecting to Courseware...');
+    // 检查输入的账号是否存在
+    if (registeredUsers.hasOwnProperty(username)) {
+        // 账号存在时，检查密码是否正确
+        if (registeredUsers[username] === password) {
+            // 如果账号密码正确，设置cookie并跳转到courseware.html
+            setCookie('isLoggedIn', 'true', 7);
+            setCookie('username', username, 7);
+            alert('登录成功');
             window.location.href = 'courseware.html';
         } else {
-            alert('Password incorrect. Please try again.');
+            // 如果账号已注册但密码错误，提示错误
+            alert('密码错误');
         }
     } else {
-        alert('Account not registered. Click "Register" to sign up.');
+        // 如果账号未注册，提示并提供注册选项
+        const result = confirm('当前账号未注册。点击“确定”去注册。');
+        if (result) {
+            window.location.href = 'register.html';
+        } else {
+            // 如果用户取消，不进行任何操作
+        }
     }
 }
 
-// 注册按钮点击事件
-function registerUser() {
-    window.location.href = 'register.html';
+// 注册表单提交处理
+function handleRegisterSubmit(event) {
+    event.preventDefault();
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
+
+    // 检查账号是否已经注册
+    if (registeredUsers.hasOwnProperty(username)) {
+        alert('您已经注册过该账号。');
+    } else {
+        registeredUsers[username] = password; // 模拟将新用户名和密码添加到已注册列表
+        setCookie('isLoggedIn', 'true', 7);
+        setCookie('username', username, 7);
+        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
+        alert('注册成功，请登录。');
+        window.location.href = 'login.html'; // 注册成功后跳转到登录界面
+    }
 }
 
-// 页面加载完成后添加事件监听器
+// 绑定点击事件到“Courseware”链接
 document.addEventListener('DOMContentLoaded', function() {
-    var loginForm = document.getElementById('loginForm');
-    var unregisteredMessage = document.getElementById('unregisteredMessage');
-    var registerButton = document.getElementById('registerButton');
+    const coursewareLink = document.querySelector('.nav-link[href="javascript:void(0)"]'); // 确保选择器与实际HTML匹配
+    if (coursewareLink) {
+        coursewareLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            const isLoggedIn = getCookie('isLoggedIn');
+            if (isLoggedIn) {
+                window.location.href = 'courseware.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+    }
+});
 
-    // 登录表单提交事件
-    loginForm.onsubmit = function(event) {
-        event.preventDefault(); // 阻止表单默认提交行为
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-        checkLogin(username, password);
-    };
+// 绑定登录和注册表单的提交事件
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLoginSubmit);
+    }
 
-    // 注册按钮点击事件
-    registerButton.onclick = function(event) {
-        event.preventDefault(); // 阻止链接默认行为
-        registerUser();
-    };
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', handleRegisterSubmit);
+    }
 });
