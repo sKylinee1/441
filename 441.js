@@ -94,40 +94,21 @@ function handleLoginSubmit(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // 检查cookie中是否有账号记录
-    const storedUsername = getCookie('username');
-    const storedPassword = getCookie('password');
-
-    if (storedUsername && storedPassword) {
-        // 如果账号和密码与cookie中的记录一致
-        if (username === storedUsername && password === storedPassword) {
-            alert('Login successful');
-            window.location.href = 'courseware.html';
-        } else {
-            // 如果账号存在但密码不一致
-            alert('Password is incorrect');
-        }
+    // 检查用户名和密码是否与注册信息匹配
+    if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
+        // 如果账号密码正确，设置cookie并跳转到courseware.html
+        setCookie('isLoggedIn', 'true', 7);
+        setCookie('username', username, 7);
+        setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
+        alert('Login successful');
+        window.location.href = 'courseware.html';
     } else {
-        // 如果账号在cookie里没有记录，检查用户名和密码是否与注册信息匹配
-        if (registeredUsers.hasOwnProperty(username) && registeredUsers[username] === password) {
-            setCookie('isLoggedIn', 'true', 7);
-            setCookie('username', username, 7);
-            setCookie('password', password, 7); // 注意：实际应用中不应存储明文密码
-            alert('Login successful');
-            window.location.href = 'courseware.html';
-        } else {
-            // 如果账号未注册，提示并提供注册选项
-            const result = confirm('The account is not registered. Click "OK" to register.');
-            if (result) {
-                window.location.href = 'register.html';
-            } else {
-                // 如果用户取消，不进行任何操作
-            }
-        }
+        // 如果账号或密码错误，提示错误
+        alert('Username or password is incorrect');
     }
 }
 
-// 绑定登录表单的提交事件
+// 页面加载完成后绑定登录表单的提交事件
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
