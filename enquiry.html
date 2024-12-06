@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTO IT School - Login</title>
+    <link rel="stylesheet" href="441.css">
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <div class="logo">
+                <img src="441logo.jpg" alt="KATE IT School Logo">
+            </div>
+            <div class="school-name">
+                KATE IT School
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="javascript:void(0)" class="nav-link" onclick="checkLoginAndRedirect()">Courseware</a>
+                <a href="enquiry.html" class="nav-link">Enquiry</a>
+                <a href="showcase.html" class="nav-link">Showcase</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Main content goes here -->
+        <section id="login">
+            <h2>Login to RTO IT School</h2>
+            <div class="auth-container login-container">
+                <form>
+                    <div class="form-group login-form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group login-form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group login-form-group">
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 KATE IT School. All rights reserved.</p>
+    </footer>
+</body>
+</html>
