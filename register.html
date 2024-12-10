@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,19 +8,47 @@
     <script src="441.js"></script>
 </head>
 <body>
-    <div class="register-container">
-        <h2>Register</h2>
-        <form id="registerForm">
-            <div class="form-group">
-            <label for="registerUsername">Username:</label>
-            <input type="text" id="registerUsername" name="registerUsername" required>
-            
-            <label for="registerPassword">Password:</label>
-            <input type="password" id="registerPassword" name="registerPassword" required>
-            
-            <button type="submit">Register</button>
+    <header>
+        <nav class="top-nav">
+            <div class="logo">
+                <img src="441logo.jpg" alt="RTO IT School Logo">
             </div>
-        </form>
-    </div>
+            <div class="school-name">
+                KATE IT School
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="courseware.html" class="nav-link">Courseware</a>
+                <a href="enquiry.html" class="nav-link">Enquiry</a>
+                <a href="showcase.html" class="nav-link">Showcase</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="register">
+            <h2>Register</h2>
+            <div class="auth-container">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUsername">Username:</label>
+                        <input type="text" id="registerUsername" name="registerUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password:</label>
+                        <input type="password" id="registerPassword" name="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Register</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 KATE IT School. All rights reserved.</p>
+    </footer>
 </body>
 </html>
