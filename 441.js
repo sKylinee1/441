@@ -1,4 +1,4 @@
-//John Huang Zhenyu 223190612//
+//John Huang Zhenyu //
 
 document.addEventListener('DOMContentLoaded', function() {
     const courses = document.querySelectorAll('.course-item');
